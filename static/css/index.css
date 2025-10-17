@@ -1,0 +1,56 @@
+html {
+    background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+    background-attachment: fixed;
+    /* Gradient background */
+    height: 100vh;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100%;
+    color: #333;
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #280b0b;
+    /* Header color */
+}
+
+form {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+input[type="file"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #0056b3;
+    /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004494;
+    /* Button hover color */
+}
+
+footer {
+    margin-top: 30px;
+    color: #280b0b;
+    /* Footer text color */
+}
+
+.user_actions {
+    width: 25vw;
+}
