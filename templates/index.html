@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAR Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+
+<body>
+    <h1>Har Analyzer</h1>
+    <form action="/analyze" method="POST" enctype="multipart/form-data">
+        <input type="file" name="har_file" required>
+        <br>
+        <button type="submit">Analyze Har File</button>
+    </form>
+    <br>    
+    <form action="/ai_review" method="POST" enctype="multipart/form-data">
+        <input type="file" name="har_file" required><br>
+        <label for="user_actions">User's actions during .har creation</label><br>
+        <input type="text" name="user_actions" aria-describedby="ua-hint" class="user_actions" required><br>
+        <span id="ua-hint">Input the actions the user was taking when the har file was created</span><br>
+        <button type="submit">AI Review Har File</button>
+    </form>
+
+    <footer>
+        <p>Template Created By <a href="https://rahulranjan.org" style="color: rgb(30, 8, 8);">Rahul Ranjan</a>. AI integration updated by Dereck Bearsong</p>
+    </footer>
+</body>
+
+</html>
