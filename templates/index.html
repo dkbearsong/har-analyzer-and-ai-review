@@ -5,28 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAR Analyzer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .flex-container {
+            padding: 75px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tt {
+            padding-left: 25px
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Har Analyzer</h1>
-    <form action="/analyze" method="POST" enctype="multipart/form-data">
-        <input type="file" name="har_file" required>
-        <br>
-        <button type="submit">Analyze Har File</button>
-    </form>
-    <br>    
-    <form action="/ai_review" method="POST" enctype="multipart/form-data">
-        <input type="file" name="har_file" required><br>
-        <label for="user_actions">User's actions during .har creation</label><br>
-        <input type="text" name="user_actions" aria-describedby="ua-hint" class="user_actions" required><br>
-        <span id="ua-hint">Input the actions the user was taking when the har file was created</span><br>
-        <button type="submit">AI Review Har File</button>
-    </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1 tt">Har Analyzer</span>
+    </nav>
+    <div class="flex-container">
+            <div class="row">
+                <form action="/analyze" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="har_file" class="form-label">Upload HAR File:</label>
+                        <input type="file" name="har_file" class="form-control" aria-describedby="har-hint" required>
+                        <div id="har-hint" class="form-text">Choose a .har file to analyze.</div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Analyze Har File</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <form action="/ai_review" method="POST" enctype="multipart/form-data">
+                    <label for="user_actions" class="form-label">User's actions during .har creation</label><br>
+                    <input type="file" name="har_file" class="form-control" required><br>
+                    <input type="text" class="form-control" name="user_actions" aria-describedby="ua-hint" class="user_actions" required>
+                    <span id="ua-hint" class="form-text">Input the actions the user was taking when the har file was created</span>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-primary">AI Review Har File</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <footer>
-        <p>Template Created By <a href="https://rahulranjan.org" style="color: rgb(30, 8, 8);">Rahul Ranjan</a>. AI integration updated by Dereck Bearsong</p>
+        <figure class="text-center">
+            <blockquote class="blockquote">
+                <p>Template Created By <a href="https://rahulranjan.org" style="color: rgb(30, 8, 8);">Rahul Ranjan</a>.</p>
+            </blockquote>
+            <figcaption class=""blockquote-footer">— AI integration and Bootstrap restyling by Dereck Bearsong</figcaption>
+        </figure>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>

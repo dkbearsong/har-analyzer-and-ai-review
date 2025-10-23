@@ -3,6 +3,7 @@ import json
 from typing import Optional
 from pydantic import BaseModel
 from call_gemini import Gemini
+import re
 
 # Original har analyzing functions, index and analyze html files created by Rahul Ranjan https://medium.com/@rahul.fiem/har-analyzer-766ff60c9478. Accessed on 10/16/25
 # call_gemini.py, ai_review.html, modifications to original har analyzing function and graphical modifications created by Dereck Goolsby-Bearsong https://github.com/dkbearsong 
@@ -22,6 +23,22 @@ class Output_Builder(BaseModel):
     security_concerns: list[str]
     cdn_issues: list[str]
     suggests: str
+
+def format_ai_paragraph(paragraph):
+    # Split on numbered points (1. 2. 3. etc.)
+    points = re.split(r'\d+\.\s+', paragraph)
+    # Remove empty strings from the list
+    points = [point.strip() for point in points if point.strip()]
+    
+    # Convert each point to HTML with bold formatting
+    list_items = []
+    for point in points:
+        # Replace **text** with <strong>text</strong>
+        formatted_point = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', point)
+        list_items.append(f'<li>{formatted_point}</li>')
+    
+    # Wrap in ordered list
+    return f'<ol>{"".join(list_items)}</ol>'
 
 def parse_har(file_path):
     with open(file_path, 'r') as f:
@@ -121,7 +138,7 @@ def ai_review():
         *   Identify the slowest-loading requests, particularly those with long "Waiting" (TTFB) or "Blocked" times.
         *   Point out any exceptionally large file transfers (e.g., large images, JavaScript bundles).
         *   Flag any excessive or unexpected redirect chains.
-    4.  **Overall slowness:** Provide an assessment of the overall page load performance. Consider the number of requests and the total time taken.
+    4.  **Overall slowness:** Provide an assessment of the overall page load performance. Consider the number of requests and the total time taken. 
     5.  **Security considerations:** Note any requests made over unencrypted HTTP instead of HTTPS.
     6.  **CDN issues:** Identify any links coming from a CDN that may have resulted in error codes or long load times. Provide details about these entries.
     7.  **Suggestions for improvement:** Based on the findings, provide specific, actionable recommendations (e.g., compress resources, optimize server response, investigate third-party scripts).
@@ -137,8 +154,9 @@ def ai_review():
         model="gemini-2.5-flash",
         prompt=ai_prompt,
         scheme=Output_Builder
-    )
-
+    )  
+    response_data["suggests"] = format_ai_paragraph(response_data["suggests"])
+    
     # Render results in a simple HTML table in the browser
     return render_template('ai_review.html', response=response_data, summary=summary, entries_data=entries_data)
 
