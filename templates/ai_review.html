@@ -5,130 +5,321 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAR Analyzer AI Review</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_review.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .flex-container {
+            padding: 75px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tt{
+            padding-left: 25px
+        }
+        .td{
+            word-wrap: break-word; 
+            min-width: 150px; 
+            max-width: 150px;
+        }
+        
+
+        .custom-gap-row {
+            --bs-gutter-x: 50px;
+        }
+
+            /* Ensure cards take full width within their columns */
+        .custom-gap-row .col-6 {
+            flex-grow: 1; /* Allows columns to grow and fill available space */
+            max-width: calc(50% - 25px); /* Adjusts max-width to account for half the gap */
+        }
+    </style>
 </head>
 
 <body>
-    <h1> HAR Analyzer AI Review</h1>
-
-    <div class="review">
-        <h2>Review</h2>
-        <p>Overall Slowness: {{ response.overall_slowness }}</p>
-        <p>Suggestions: {{ response.suggests }}</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1 tt">Har Analyzer</span>
+    </nav>
+    <div class="flex-container">
+        <h2>AI Review</h2>
+        <div class="container-fluid">
+            <div class="row custom-gap-row">
+                <div class="col-sm-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Overall Slowness</h5>
+                            <p class="card-text">{{ response.overall_slowness }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Suggestions</h5>
+                            <p class="card-text">{{ response.suggests | safe }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="flex-container">
 
-    <h3>Response Code Details</h3>
-    <h4>1XX: Informational</h4>
-    <p>Total 1XX Responses: {{ summary.status_code_counts[1] }}</p>
+        <h3>Response Code Details</h3>
+        <div class="accordion" id="summaryaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        1XX: Informational
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Total 1XX Responses:</strong> {{ summary.status_code_counts[1] }}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        2XX: Informational
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Total 2XX Responses:</strong> {{ summary.status_code_counts[2] }}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        3XX: Informational
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Total 3XX Responses:</strong> {{ summary.status_code_counts[3] }}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        4XX: Informational
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Total 4XX Responses:</strong> {{ summary.status_code_counts[4] }}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                        5XX: Informational
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Total 5XX Responses:</strong> {{ summary.status_code_counts[5] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="accordion" id="LFaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLF" aria-expanded="true" aria-controls="collapseLF">
+                        Load Failures
+                    </button>
+                </h2>
+                <div id="collapseLF" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.load_failures %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br> 
+        <div class="accordion" id="RDaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRD" aria-expanded="true" aria-controls="collapseRD">
+                        Redirects
+                    </button>
+                </h2>
+                <div id="collapseRD" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.redirects %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="accordion" id="PBSRaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePBSR" aria-expanded="true" aria-controls="collapsePBSR">
+                        Performance Bottlenecks - Slowest Requests
+                    </button>
+                </h2>
+                <div id="collapsePBSR" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.performance_bottlenecks.slowest_requests %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br> 
+        <div class="accordion" id="PBLTaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePBLT" aria-expanded="true" aria-controls="collapsePBLT">
+                        Performance Bottlenecks - Large Transfers
+                    </button>
+                </h2>
+                <div id="collapsePBLT" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.performance_bottlenecks.large_transfers %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br> 
+        <div class="accordion" id="PBRCaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePBRC" aria-expanded="true" aria-controls="collapsePBRC">
+                        Performance Bottlenecks - Redirect Chains
+                    </button>
+                </h2>
+                <div id="collapsePBRC" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.performance_bottlenecks.redirect_chains %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="accordion" id="SCaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSC" aria-expanded="true" aria-controls="collapseSC">
+                        Security Concerns
+                    </button>
+                </h2>
+                <div id="collapseSC" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.security_concerns %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="accordion" id="CDNaccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCDN" aria-expanded="true" aria-controls="collapseCDN">
+                        CDN Issues
+                    </button>
+                </h2>
+                <div id="collapseCDN" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for entry in response.cdn_issues %}
+                        <p>{{ entry }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
 
-    <h4>2XX: Success</h4>
-    <p>Total 2XX Responses: {{ summary.status_code_counts[2] }}</p>
+        
+        <div class="summary">
+            <h1>Summary</h1>
+            <div>
+                <p><strong>Total Requests:</strong> {{ summary.total_requests }}</p>
+                <p><strong>Total Time:</strong> {{ summary.total_time }} ms</p>
+                <p><strong>Average Time:</strong> {{ summary.average_time }} ms</p>
+                <p><strong>Success Count:</strong> {{ summary.success_count }}</p>
+                <p><strong>Failure Count:</strong> {{ summary.failure_count }}</p>
+            </div>
+        </div>
+        
 
-    <h4>3XX: Redirection</h4>
-    <p>Total 3XX Responses: {{ summary.status_code_counts[3] }}</p>
+        <h2>Request Details</h2>
+        <table class="table table-hover table-striped-columns">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                    <th>Content-Type</th>
+                    <th>Time (ms)</th>
+                    <th>Source IP</th>
+                    <th>Response Size (KB)</th>
+                    <th>Latency (ms)</th> <!-- New Field for Latency -->
+                    <th>Time Breakdown</th>
+                    <th>Error Message</th>
+                    <th>Request Payload</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries_data %}
+                <tr>
+                    <td>{{ entry.method }}</td>
+                    <td>
+                        <span title="{{ entry.url }}">{{ entry.url[:60] }}{% if entry.url|length > 60 %}...{% endif
+                            %}</span>
+                    </td>
+                    <td>{{ entry.status }}</td>
+                    <td>{{ entry.content_type }}</td>
+                    <td>{{ entry.time }}</td>
+                    <td>{{ entry.source_ip }}</td>
+                    <td>{{ (entry.response_size / 1024) | round(2) }} KB</td> <!-- Convert size to KB -->
+                    <td>
+                        {{ (entry.timings.dns + entry.timings.connect + entry.timings.send + entry.timings.wait +
+                        entry.timings.receive) | round(2) }} ms
+                    </td> <!-- Calculate and display total latency -->
+                    <td>
+                        DNS: {{ entry.timings.dns }} ms<br>
+                        Connect: {{ entry.timings.connect }} ms<br>
+                        Send: {{ entry.timings.send }} ms<br>
+                        Wait: {{ entry.timings.wait }} ms<br>
+                        Receive: {{ entry.timings.receive }} ms
+                    </td>
+                    <td>{{ entry.error_message if entry.error_message else 'N/A' }}</td>
+                    <td>{{ entry.payload }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <h4>4XX: Client Errors</h4>
-    <p>Total 4XX Responses: {{ summary.status_code_counts[4] }}</p>
 
-    <h4>5XX: Server Errors</h4>
-    <p>Total 5XX Responses: {{ summary.status_code_counts[5] }}</p>
-
-    <h2>Load Failures</h2>
-    {% for entry in response.load_failures %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>Redirects</h2>
-    {% for entry in response.redirects %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>Performance Bottlenecks - Slowest Requests</h2>
-    {% for entry in response.performance_bottlenecks.slowest_requests %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>Performance Bottlenecks - Large Transfers</h2>
-    {% for entry in response.performance_bottlenecks.large_transfers %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>Performance Bottlenecks - Redirect Chains</h2>
-    {% for entry in response.performance_bottlenecks.redirect_chains %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>Security Concerns</h2>
-    {% for entry in response.security_concerns %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <h2>CDN Issues</h2>
-    {% for entry in response.cdn_issues %}
-    <p>{{ entry }}</p>
-    {% endfor %}
-
-    <div class="summary">
-        <h2>Summary</h2>
-        <p>Total Requests: {{ summary.total_requests }}</p>
-        <p>Total Time: {{ summary.total_time }} ms</p>
-        <p>Average Time: {{ summary.average_time }} ms</p>
-        <p>Success Count: {{ summary.success_count }}</p>
-        <p>Failure Count: {{ summary.failure_count }}</p>
+            <footer>
+                <figure class="text-center">
+                    <blockquote class="blockquote">
+                        <p>Template Created By <a href="https://rahulranjan.org" style="color: rgb(30, 8, 8);">Rahul Ranjan</a>.</p>
+                    </blockquote>
+                    <figcaption class=""blockquote-footer">— AI integration and Bootstrap restyling by Dereck Bearsong</figcaption>
+                </figure>
+            </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     </div>
-
-    <h2>Request Details</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Method</th>
-                <th>URL</th>
-                <th>Status</th>
-                <th>Content-Type</th>
-                <th>Time (ms)</th>
-                <th>Source IP</th>
-                <th>Response Size (KB)</th>
-                <th>Latency (ms)</th> <!-- New Field for Latency -->
-                <th>Time Breakdown</th>
-                <th>Error Message</th>
-                <th>Request Payload</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in entries_data %}
-            <tr>
-                <td>{{ entry.method }}</td>
-                <td>
-                    <span title="{{ entry.url }}">{{ entry.url[:60] }}{% if entry.url|length > 60 %}...{% endif
-                        %}</span>
-                </td>
-                <td>{{ entry.status }}</td>
-                <td>{{ entry.content_type }}</td>
-                <td>{{ entry.time }}</td>
-                <td>{{ entry.source_ip }}</td>
-                <td>{{ (entry.response_size / 1024) | round(2) }} KB</td> <!-- Convert size to KB -->
-                <td>
-                    {{ (entry.timings.dns + entry.timings.connect + entry.timings.send + entry.timings.wait +
-                    entry.timings.receive) | round(2) }} ms
-                </td> <!-- Calculate and display total latency -->
-                <td>
-                    DNS: {{ entry.timings.dns }} ms<br>
-                    Connect: {{ entry.timings.connect }} ms<br>
-                    Send: {{ entry.timings.send }} ms<br>
-                    Wait: {{ entry.timings.wait }} ms<br>
-                    Receive: {{ entry.timings.receive }} ms
-                </td>
-                <td>{{ entry.error_message if entry.error_message else 'N/A' }}</td>
-                <td>{{ entry.payload }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-
-    <footer>
-        <p>Template Created By <a href="https://rahulranjan.org" style="color: rgb(30, 8, 8);">Rahul Ranjan</a>. AI integration updated by Dereck Bearsong</p>
-    </footer>
-</body>
+  </body>
 
 </html>
